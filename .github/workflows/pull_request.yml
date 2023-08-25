@@ -24,13 +24,9 @@ jobs:
         os:
           - centos7
           - centos8
-          - ubuntu1604
-          - ubuntu1804
           - ubuntu2004
-          #- ubuntu2204
-          #- ubuntu2304
-        compiler:
-          - 9.3.0
+          - ubuntu2204
+          - ubuntu2304
         arch:
           - x64
           - arm64
@@ -43,10 +39,6 @@ jobs:
     - uses: actions/checkout@v3
     - name: Set up environment
       run: |
-        export URL=https://raw.githubusercontent.com/vesoft-inc/nebula-gears/master/install
-        bash <(curl -Ls $URL)
-        install-gcc --version=${{ matrix.compiler }}
-        echo "COMPILER_VERSION=${{ matrix.compiler }}" >> $GITHUB_ENV
         echo "path=$(pwd)" >> $GITHUB_ENV
     - name: Pre-Build
       run: |
@@ -59,11 +51,6 @@ jobs:
         sync
     - name: Build    
       run: |
-        export TOOLSET_GCC_DIR=/opt/vesoft/toolset/gcc/${COMPILER_VERSION}
-        export CC=${TOOLSET_GCC_DIR}/bin/gcc
-        export CXX=${TOOLSET_GCC_DIR}/bin/g++
-        export PATH=${TOOLSET_GCC_DIR}/bin:${PATH}
-        export LD_LIBRARY_PATH=${TOOLSET_GCC_DIR}/lib64:$LD_LIBRARY_PATH
         build_package=1 ${{ env.path }}/build.sh
       working-directory: ../build/
       
@@ -74,4 +61,4 @@ jobs:
         access_key: ${{ secrets.MINIO_KEY }}
         secret_key: ${{ secrets.MINIO_SECRET }}
     - name: Copy dir to MinIO
-      run: mc cp -r ../build/packages/ minio/pr-build/third-party/5.0/
+      run: mc cp -r ../build/packages/ minio/pr-build/third-party/5.0/${{ github.event.pull_request.head.sha }}/
