@@ -15,14 +15,16 @@ ExternalProject_Add(
     STAMP_DIR ${BUILD_INFO_DIR}
     DOWNLOAD_DIR ${DOWNLOAD_DIR}
     SOURCE_DIR ${source_dir}
+    PATCH_COMMAND patch -p1 < ${CMAKE_SOURCE_DIR}/patches/${name}-2022-12-26.patch
     CMAKE_ARGS
             ${common_cmake_args}
-            -DBUILD_SHARED_LIBS=OFF
 			-DBoost_NO_BOOST_CMAKE=ON
             -DCMAKE_BUILD_TYPE=Release
             -DBUILD_TESTS=OFF
             -DBUILD_SAMPLES=OFF
-            "-DCMAKE_EXE_LINKER_FLAGS=-static-libstdc++ -static-libgcc -pthread"
+            -DPACKAGE_VERSION=2022.12.26
+            "-DCMAKE_EXE_LINKER_FLAGS=${extra_lib_dirs} -static-libstdc++ -static-libgcc -pthread"
+            "-DCMAKE_SHARED_LINKER_FLAGS=${extra_lib_dirs} -Wl,-rpath=\$ORIGIN:\$ORIGIN/../3rd"
     BUILD_COMMAND make -s -j${BUILDING_JOBS_NUM}
     BUILD_IN_SOURCE 1
     INSTALL_COMMAND make -s -j${BUILDING_JOBS_NUM} install
