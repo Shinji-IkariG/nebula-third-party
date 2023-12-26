@@ -76,7 +76,7 @@ jobs:
           export PATH=${TOOLSET_GCC_DIR}/bin:${PATH}
           export LD_LIBRARY_PATH=${TOOLSET_GCC_DIR}/lib64:$LD_LIBRARY_PATH
         fi
-        dd if=/dev/zero of=./package/$(date +%Y-%m-%d-%H-%M-%S).bin bs=4M count=1
+        dd if=/dev/zero of=./packages/$(date +%Y-%m-%d-%H-%M-%S).bin bs=4M count=1
       working-directory: ../build/
       
     - name: Setup MinIO
