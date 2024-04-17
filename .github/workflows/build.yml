@@ -31,11 +31,11 @@ jobs:
           #- ubuntu2204
           #- ubuntu2304
         compiler:
-          - 9.3.0
+          #- 9.3.0
           - ''
         arch:
           - x64
-          - arm64
+          #- arm64
         exclude:
           - os: centos7
             compiler: ''
