@@ -41,7 +41,7 @@ jobs:
           #- ubuntu1604
           #- ubuntu1804
           - ubuntu2004
-          #- ubuntu2204
+          - ubuntu2204
         compiler:
           - 9.3.0
           - ''
@@ -51,6 +51,10 @@ jobs:
         exclude:
           - os: centos7
             compiler: ''
+          - os: ubuntu2204
+            compiler: '9.3.0'
+          - os: ubuntu2404
+            compiler: '9.3.0'
           #- os: centos8
           #  compiler: ''
           #- os: ubuntu2204
