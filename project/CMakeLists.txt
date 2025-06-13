@@ -296,6 +296,7 @@ else()
 endif()
 
 maybe_add_dependencies(cachelib fbthrift sparsemap fizz googletest)
+maybe_add_dependencies(faiss openblas)
 
 # RocksDB has its own copy of gtest, which may conflict with ours
 # Here we build gtest after rocksdb intentionally
