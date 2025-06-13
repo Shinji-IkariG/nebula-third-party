@@ -191,6 +191,9 @@ set(ALL_TARGETS
     robin-hood-hashing
     libev
     xsimd
+    faiss
+    openblas
+    hnswlib
 )
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
