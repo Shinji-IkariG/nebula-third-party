@@ -1,5 +1,13 @@
 set(name faiss)
 set(source_dir ${CMAKE_CURRENT_BINARY_DIR}/${name}/source)
+
+# Detect if the current platform is x86
+if(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64")
+    set(FAISS_OPT_LEVEL "-DFAISS_OPT_LEVEL=avx512")
+else()
+    set(FAISS_OPT_LEVEL "")
+endif()
+
 ExternalProject_Add(
     ${name}
     URL               https://github.com/facebookresearch/faiss/archive/refs/tags/v1.7.4.tar.gz
@@ -13,6 +21,10 @@ ExternalProject_Add(
         ${common_cmake_args}
 	-DBUILD_SHARED_LIBS=OFF
 	-DFAISS_ENABLE_GPU=OFF
+        -DFAISS_ENABLE_PYTHON=OFF
+        -DBUILD_TESTING=OFF
+        -DCMAKE_BUILD_TYPE=Release
+        ${FAISS_OPT_LEVEL}
     BUILD_COMMAND     make -s -j${BUILDING_JOBS_NUM}
     BUILD_IN_SOURCE   1
     INSTALL_COMMAND   make -s -j${BUILDING_JOBS_NUM} install
